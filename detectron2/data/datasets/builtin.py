@@ -113,7 +113,7 @@ def register_all_coco(root):
                 os.path.join(root, json_file) if "://" not in json_file else json_file,
                 os.path.join(root, image_root),
             )
-    ## 
+    ##
     # for (
     #     prefix,
     #     (panoptic_root, panoptic_json, semantic_root),

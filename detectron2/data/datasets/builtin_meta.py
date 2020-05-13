@@ -141,16 +141,16 @@
 # ]
 ## 使用自定义数据集
 COCO_CATEGORIES = [
-    {"color": [220, 20, 60], "isthing": 1, "id": 1, "name": "0"},
-    {"color": [119, 11, 32], "isthing": 1, "id": 2, "name": "1"},
-    {"color": [0, 0, 142], "isthing": 1, "id": 3, "name": "2"},
-    {"color": [0, 0, 230], "isthing": 1, "id": 4, "name": "3"},
-    {"color": [106, 0, 228], "isthing": 1, "id": 5, "name": "4"},
-    {"color": [0, 60, 100], "isthing": 1, "id": 6, "name": "5"},
-    {"color": [0, 80, 100], "isthing": 1, "id": 7, "name": "6"},
-    {"color": [0, 0, 70], "isthing": 1, "id": 8, "name": "7"},
-    {"color": [0, 0, 192], "isthing": 1, "id": 9, "name": "8"},
-    {"color": [250, 170, 30], "isthing": 1, "id": 10, "name": "9"},
+    {"color": [220, 20, 60], "isthing": 1, "id": 0, "name": "0"},
+    {"color": [119, 11, 32], "isthing": 1, "id": 1, "name": "1"},
+    {"color": [0, 0, 142], "isthing": 1, "id": 2, "name": "2"},
+    {"color": [0, 0, 230], "isthing": 1, "id": 3, "name": "3"},
+    {"color": [106, 0, 228], "isthing": 1, "id": 4, "name": "4"},
+    {"color": [0, 60, 100], "isthing": 1, "id": 5, "name": "5"},
+    {"color": [0, 80, 100], "isthing": 1, "id": 6, "name": "6"},
+    {"color": [0, 0, 70], "isthing": 1, "id": 7, "name": "7"},
+    {"color": [0, 0, 192], "isthing": 1, "id": 8, "name": "8"},
+    {"color": [250, 170, 30], "isthing": 1, "id": 9, "name": "9"},
 ]
 
 # fmt: off
