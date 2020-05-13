@@ -4,11 +4,11 @@ instant_test_output
 inference_test_output
 
 
-*.jpg
-*.png
-*.txt
-*.json
-*.diff
+# *.jpg
+# *.png
+# *.txt
+# *.json
+# *.diff
 
 # compilation and distribution
 __pycache__
