@@ -1,5 +1,9 @@
 import sys
 import os
+import json
 
 
-print(os.path.isfile('coco/annotations/instances_train2017.json'))
+json_file = os.path.join('coco/annotations', "instances_testdev2017.json")
+with open(json_file) as f:
+    imgs_anns = json.load(f)
+    print(imgs_anns)
