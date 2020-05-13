@@ -44,7 +44,7 @@ def register_coco_instances(name, metadata, json_file, image_root):
 
     ## 修改类别
     MetadataCatalog.get(name).set(
-        json_file=json_file, image_root=image_root, evaluator_type="coco", thing_classes="['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']", **metadata
+        json_file=json_file, image_root=image_root, evaluator_type="coco", thing_classes="[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]", **metadata
     )
 
 
