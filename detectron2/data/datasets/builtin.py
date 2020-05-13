@@ -104,6 +104,8 @@ _PREDEFINED_SPLITS_COCO_PANOPTIC = {
 def register_all_coco(root):
     for dataset_name, splits_per_dataset in _PREDEFINED_SPLITS_COCO.items():
         for key, (image_root, json_file) in splits_per_dataset.items():
+            ##
+            if not key.startswith('coco_2017'): continue
             # Assume pre-defined datasets live in `./datasets`.
             register_coco_instances(
                 key,
