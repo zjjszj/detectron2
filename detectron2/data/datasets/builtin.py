@@ -212,8 +212,11 @@ def register_all_pascal_voc(root):
         MetadataCatalog.get(name).evaluator_type = "pascal_voc"
 
 
+import os
+curPath = os.path.abspath(os.path.dirname(__file__))
+
 # Register them all under "./datasets"
-_root = os.getenv("DETECTRON2_DATASETS", ".")
+_root = os.getenv("DETECTRON2_DATASETS", curPath)
 register_all_coco(_root)
 register_all_lvis(_root)
 register_all_cityscapes(_root)
