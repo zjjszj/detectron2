@@ -137,7 +137,6 @@ class DefaultAnchorGenerator(nn.Module):
         cell_anchors = [
             self.generate_cell_anchors(s, a).float() for s, a in zip(sizes, aspect_ratios)
         ]
-        print('cell_anchors=', cell_anchors)
         return BufferList(cell_anchors)
 
     @property
@@ -230,7 +229,6 @@ class DefaultAnchorGenerator(nn.Module):
                 The number of anchors of each feature map is Hi x Wi x num_cell_anchors,
                 where Hi, Wi are resolution of the feature map divided by anchor stride.
         """
-        print('len(features)=', len(features))
         for fmap in features:
             print('fmap.shape=', fmap.shape)
         grid_sizes = [feature_map.shape[-2:] for feature_map in features]
