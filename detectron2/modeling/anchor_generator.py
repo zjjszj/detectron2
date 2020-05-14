@@ -167,16 +167,19 @@ class DefaultAnchorGenerator(nn.Module):
             list[Tensor]: #featuremap tensors, each is (#locations x #cell_anchors) x 4
         """
         anchors = []
-        print('grid_sizes=', grid_sizes)
-        print('self.strides=', self.strides)
         for size, stride, base_anchors in zip(grid_sizes, self.strides, self.cell_anchors):
             shift_x, shift_y = _create_grid_offsets(size, stride, self.offset, base_anchors.device)
             shifts = torch.stack((shift_x, shift_y, shift_x, shift_y), dim=1)
-
+            if stride==32 or stride==64:
+                print('stride=', stride)
+                print('shift_x=', shift_x)
+                print('shift_y=', shift_y)
+                print('shifts=', shifts)
+                print('shifts.view(-1, 1, 4).shape=', shifts.view(-1, 1, 4).shape)
+                print(' base_anchors.view(1, -1, 4).shape=',  base_anchors.view(1, -1, 4).shape)
+                print('(shifts.view(-1, 1, 4) + base_anchors.view(1, -1, 4)).reshape(-1, 4)=', (shifts.view(-1, 1, 4) + base_anchors.view(1, -1, 4)).reshape(-1, 4))
             anchors.append((shifts.view(-1, 1, 4) + base_anchors.view(1, -1, 4)).reshape(-1, 4))
 
-        print('len(anchors)=', len(anchors))
-        print('anchors[0].shape=', anchors[0].shape)
         return anchors
 
     def generate_cell_anchors(self, sizes=(32, 64, 128, 256, 512), aspect_ratios=(0.5, 1, 2)):

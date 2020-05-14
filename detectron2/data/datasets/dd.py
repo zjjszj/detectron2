@@ -73,4 +73,22 @@ def _calculate_anchors(sizes, aspect_ratios):
     print(cell_anchors)
     return BufferList(cell_anchors)
 
-print(_calculate_anchors([[32, 64, 128, 256, 512]], [[0.5, 1.0, 2.0]]))
+
+
+def _create_grid_offsets(size, stride: int, offset: float):
+    grid_height, grid_width = size
+    shifts_x = torch.arange(
+        offset * stride, grid_width * stride, step=stride, dtype=torch.float32
+    )
+    shifts_y = torch.arange(
+        offset * stride, grid_height * stride, step=stride, dtype=torch.float32
+    )
+
+    shift_y, shift_x = torch.meshgrid(shifts_y, shifts_x)
+    shift_x = shift_x.reshape(-1)
+    shift_y = shift_y.reshape(-1)
+    return shift_x, shift_y
+
+for x in [2,3]:
+    if x==2:
+        print('dd')
