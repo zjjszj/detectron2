@@ -137,6 +137,7 @@ class DefaultAnchorGenerator(nn.Module):
         cell_anchors = [
             self.generate_cell_anchors(s, a).float() for s, a in zip(sizes, aspect_ratios)
         ]
+        print('cell_anchors=', cell_anchors)
         return BufferList(cell_anchors)
 
     @property
@@ -168,13 +169,14 @@ class DefaultAnchorGenerator(nn.Module):
         anchors = []
         print('grid_sizes=', grid_sizes)
         print('self.strides=', self.strides)
-        print('self.cell_anchors=', self.cell_anchors)
         for size, stride, base_anchors in zip(grid_sizes, self.strides, self.cell_anchors):
             shift_x, shift_y = _create_grid_offsets(size, stride, self.offset, base_anchors.device)
             shifts = torch.stack((shift_x, shift_y, shift_x, shift_y), dim=1)
 
             anchors.append((shifts.view(-1, 1, 4) + base_anchors.view(1, -1, 4)).reshape(-1, 4))
 
+        print('len(anchors)=', len(anchors))
+        print('anchors[0].shape=', anchors[0].shape)
         return anchors
 
     def generate_cell_anchors(self, sizes=(32, 64, 128, 256, 512), aspect_ratios=(0.5, 1, 2)):
@@ -225,6 +227,9 @@ class DefaultAnchorGenerator(nn.Module):
                 The number of anchors of each feature map is Hi x Wi x num_cell_anchors,
                 where Hi, Wi are resolution of the feature map divided by anchor stride.
         """
+        print('len(features)=', len(features))
+        for fmap in features:
+            print('fmap.shape=', fmap.shape)
         grid_sizes = [feature_map.shape[-2:] for feature_map in features]
         anchors_over_all_feature_maps = self._grid_anchors(grid_sizes)
         return [Boxes(x) for x in anchors_over_all_feature_maps]
