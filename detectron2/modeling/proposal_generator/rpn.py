@@ -60,6 +60,7 @@ class StandardRPNHead(nn.Module):
                 box_dim=4, while a rotated box has box_dim=5.
         """
         super().__init__()
+        print('num_anchors=', num_anchors) # 3?
         # 3x3 conv for the hidden representation
         self.conv = nn.Conv2d(in_channels, in_channels, kernel_size=3, stride=1, padding=1)
         # 1x1 conv for predicting objectness logits

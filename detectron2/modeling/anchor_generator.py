@@ -167,16 +167,9 @@ class DefaultAnchorGenerator(nn.Module):
         """
         anchors = []
         for size, stride, base_anchors in zip(grid_sizes, self.strides, self.cell_anchors):
+            print('base_anchors.device=', base_anchors.device)
             shift_x, shift_y = _create_grid_offsets(size, stride, self.offset, base_anchors.device)
             shifts = torch.stack((shift_x, shift_y, shift_x, shift_y), dim=1)
-            if stride==32 or stride==64:
-                print('stride=', stride)
-                print('shift_x=', shift_x)
-                print('shift_y=', shift_y)
-                print('shifts=', shifts)
-                print('shifts.view(-1, 1, 4).shape=', shifts.view(-1, 1, 4).shape)
-                print(' base_anchors.view(1, -1, 4).shape=',  base_anchors.view(1, -1, 4).shape)
-                print('(shifts.view(-1, 1, 4) + base_anchors.view(1, -1, 4)).reshape(-1, 4)=', (shifts.view(-1, 1, 4) + base_anchors.view(1, -1, 4)).reshape(-1, 4))
             anchors.append((shifts.view(-1, 1, 4) + base_anchors.view(1, -1, 4)).reshape(-1, 4))
 
         return anchors
@@ -227,7 +220,7 @@ class DefaultAnchorGenerator(nn.Module):
             list[Boxes]: a list of Boxes containing all the anchors for each feature map
                 (i.e. the cell anchors repeated over all locations in the feature map).
                 The number of anchors of each feature map is Hi x Wi x num_cell_anchors,
-                where Hi, Wi are resolution of the feature map divided by anchor stride.
+                where Hi, Wi are resolution of the feature map divided by anchor stride.  ? feature map->image
         """
         for fmap in features:
             print('fmap.shape=', fmap.shape)
@@ -326,7 +319,7 @@ class RotatedAnchorGenerator(nn.Module):
             shift_x, shift_y = _create_grid_offsets(size, stride, self.offset, base_anchors.device)
             zeros = torch.zeros_like(shift_x)
             shifts = torch.stack((shift_x, shift_y, zeros, zeros, zeros), dim=1)
-
+            print('(shifts.view(-1, 1, 5) + base_anchors.view(1, -1, 5)).reshape(-1, 5).shape=', (shifts.view(-1, 1, 5) + base_anchors.view(1, -1, 5)).reshape(-1, 5).shape)
             anchors.append((shifts.view(-1, 1, 5) + base_anchors.view(1, -1, 5)).reshape(-1, 5))
 
         return anchors
