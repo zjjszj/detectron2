@@ -84,6 +84,7 @@ def _broadcast_params(params, num_features, name):
 
 @ANCHOR_GENERATOR_REGISTRY.register()
 class DefaultAnchorGenerator(nn.Module):
+    # TODO: this has no parameters so, why designed as module and not as method?. Because for convenient?
     """
     Compute anchors in the standard ways described in
     "Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks".

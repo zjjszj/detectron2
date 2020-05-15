@@ -60,7 +60,7 @@ class StandardRPNHead(nn.Module):
                 box_dim=4, while a rotated box has box_dim=5.
         """
         super().__init__()
-        print('num_anchors=', num_anchors) # 3?
+        # print('num_anchors=', num_anchors) # 3
         # 3x3 conv for the hidden representation
         self.conv = nn.Conv2d(in_channels, in_channels, kernel_size=3, stride=1, padding=1)
         # 1x1 conv for predicting objectness logits
@@ -185,8 +185,9 @@ class RPN(nn.Module):
                 feature maps.  The values are the matched gt boxes for each anchor.
                 Values are undefined for those anchors not labeled as 1.
         """
-        anchors = Boxes.cat(anchors)
+        anchors = Boxes.cat(anchors)    ## Boxes obj contains 2d all of anchors of an image
 
+        ## list[[tensor]...]: each ele represnets gt_boxes in an image.
         gt_boxes = [x.gt_boxes for x in gt_instances]
         image_sizes = [x.image_size for x in gt_instances]
         del gt_instances
@@ -219,10 +220,12 @@ class RPN(nn.Module):
                 matched_gt_boxes_i = torch.zeros_like(anchors.tensor)
             else:
                 # TODO wasted indexing computation for ignored boxes
-                matched_gt_boxes_i = gt_boxes_i[matched_idxs].tensor
+                matched_gt_boxes_i = gt_boxes_i[matched_idxs].tensor  ## matched gt_boxes for all of anchors in an image
 
             gt_labels.append(gt_labels_i)  # N,AHW
             matched_gt_boxes.append(matched_gt_boxes_i)
+        print('gt_labels[0].shape=', gt_labels[0].shape)
+        print('matched_gt_boxes[0].shape=', matched_gt_boxes[0].shape)
         return gt_labels, matched_gt_boxes
 
     def forward(self, images, features, gt_instances=None):

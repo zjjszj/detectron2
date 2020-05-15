@@ -29,7 +29,7 @@ _C.MODEL.DEVICE = "cuda"
 _C.MODEL.META_ARCHITECTURE = "GeneralizedRCNN"
 
 # Path (possibly with schema like catalog:// or detectron2://) to a checkpoint file
-# to be loaded to the model. You can find available models in the model zoo.
+# to be loaded to the model. You can find MODEL.RPN.BOUNDARY_THRESHavailable models in the model zoo.
 _C.MODEL.WEIGHTS = ""
 
 # Values to be used for image normalization (BGR order, since INPUT.FORMAT defaults to BGR).

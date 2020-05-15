@@ -289,7 +289,7 @@ class Boxes:
         assert all(isinstance(box, Boxes) for box in boxes_list)
 
         # use torch.cat (v.s. layers.cat) so the returned boxes never share storage with input
-        cat_boxes = cls(torch.cat([b.tensor for b in boxes_list], dim=0))
+        cat_boxes = cls(torch.cat([b.tensor for b in boxes_list], dim=0)) ## TODO:: is 1d?
         return cat_boxes
 
     @property
