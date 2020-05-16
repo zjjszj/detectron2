@@ -38,7 +38,7 @@ def apply_deltas_broadcast(box2box_transform, deltas, boxes):
     return ret.view(N, K * B)
 
 
-@torch.jit.script
+## @torch.jit.script
 class Box2BoxTransform(object):
     """
     The box-to-box transform defined in R-CNN. The transformation is parameterized

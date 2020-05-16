@@ -3,8 +3,14 @@ import torch
 import torch.nn.functional as F
 import math
 
-a=torch.randn((2,6,4))
-l=torch.tensor([0,1,0,1,0,1])
-b=l==1
-print(b)
-print(a[b])
+
+@torch.jit.script
+class Aa(object):
+    def __init__(self, x):
+        self.x=x
+    def aug_x(self):
+        self.x+=1
+
+a=Aa(2)
+a.aug_x()
+print(a.x)

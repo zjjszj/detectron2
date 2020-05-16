@@ -185,7 +185,7 @@ class RPN(nn.Module):
                 feature maps.  The values are the matched gt boxes for each anchor.
                 Values are undefined for those anchors not labeled as 1.
         """
-        anchors = Boxes.cat(anchors)    ## Boxes obj contains 2d all of anchors of an image
+        anchors = Boxes.cat(anchors)    ## Boxes obj 2d contains  all of anchors of an image
 
         ## list[[tensor]...]: each ele represnets gt_boxes in an image.
         gt_boxes = [x.gt_boxes for x in gt_instances]
@@ -250,9 +250,9 @@ class RPN(nn.Module):
         pred_objectness_logits, pred_anchor_deltas = self.rpn_head(features)
         print('len(pred_objectness_logits)=', len(pred_objectness_logits)) # 5
         print('pred_objectness_logits[0].shape=', pred_objectness_logits[0].shape) # [2, 3, 192, 296]
-        anchors = self.anchor_generator(features)   ## TODO:: anchors: in an image, so how to training?
-        print('len(anchors)=', len(anchors))
-        print('anchors[0].tensor.shape=', anchors[0].tensor.shape)
+        anchors = self.anchor_generator(features)
+        print('len(anchors)=', len(anchors)) # 5
+        print('anchors[0].tensor.shape=', anchors[0].tensor.shape) # [179712, 4]
         if self.training:
             ## gt_labels: (list[tensor[int]...]) len is the number of images. Contains values {0, -1, 1}.
             ##      Approximately 256 pos and neg, others are -1.
