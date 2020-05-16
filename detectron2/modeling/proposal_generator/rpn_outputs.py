@@ -183,9 +183,9 @@ def rpn_losses(
     localization_loss = smooth_l1_loss(
         pred_anchor_deltas[pos_masks], gt_anchor_deltas[pos_masks], smooth_l1_beta, reduction="sum"
     )
-    print('gt_anchor_deltas.shape=', gt_anchor_deltas.shape)
-    print('pred_anchor_deltas.shape=', pred_anchor_deltas.shape)
-    print('pred_objectness_logits.shape=', pred_objectness_logits.shape)
+    print('gt_anchor_deltas.shape=', gt_anchor_deltas.shape)  # [2, 227124, 4]
+    print('pred_anchor_deltas.shape=', pred_anchor_deltas.shape) # [2, 227124, 4]
+    print('pred_objectness_logits.shape=', pred_objectness_logits.shape) # [2, 227124]
     valid_masks = gt_labels >= 0
     objectness_loss = F.binary_cross_entropy_with_logits(
         pred_objectness_logits[valid_masks],
@@ -217,7 +217,7 @@ class RPNOutputs(object):
             pred_objectness_logits (list[Tensor]): A list of L elements.
                 Element i is a tensor of shape (N, A, Hi, Wi) representing
                 the predicted objectness logits for anchors.
-            pred_anchor_deltas (list[Tensor]): A list of L elements. Element i is a tensor of shape
+            pred_anchor_deltas (list[Tensor]): A list of L elements. Element i is a tensor of shape  ## L=5
                 (N, A*4 or 5, Hi, Wi) representing the predicted "deltas" used to transform anchors
                 to proposals.
             anchors (list[Boxes or RotatedBoxes]): A list of Boxes/RotatedBoxes storing the all
@@ -248,8 +248,8 @@ class RPNOutputs(object):
             .flatten(1, -2)
             for x in pred_anchor_deltas
         ]
-        print('len(self.pred_anchor_deltas)=', len(self.pred_anchor_deltas))
-        print('self.pred_anchor_deltas[0].shape=', self.pred_anchor_deltas[0].shape)
+        print('len(self.pred_anchor_deltas)=', len(self.pred_anchor_deltas)) # 5
+        print('self.pred_anchor_deltas[0].shape=', self.pred_anchor_deltas[0].shape) # [2, 170496, 4]
 
         self.anchors = anchors
 

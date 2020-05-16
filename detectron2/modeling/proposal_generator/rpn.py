@@ -248,16 +248,17 @@ class RPN(nn.Module):
         """
         features = [features[f] for f in self.in_features]
         pred_objectness_logits, pred_anchor_deltas = self.rpn_head(features)
-        print('len(pred_objectness_logits)=', len(pred_objectness_logits))
-        print('pred_objectness_logits[0].shape=', pred_objectness_logits[0].shape)
+        print('len(pred_objectness_logits)=', len(pred_objectness_logits)) # 5
+        print('pred_objectness_logits[0].shape=', pred_objectness_logits[0].shape) # [2, 3, 192, 296]
         anchors = self.anchor_generator(features)   ## TODO:: anchors: in an image, so how to training?
-
+        print('len(anchors)=', len(anchors))
+        print('anchors[0].tensor.shape=', anchors[0].tensor.shape)
         if self.training:
             ## gt_labels: (list[tensor[int]...]) len is the number of images. Contains values {0, -1, 1}.
             ##      Approximately 256 pos and neg, others are -1.
             ## gt_boxes: (list[tensor[[float]]...]) len is the number of images. Contains gt_boxes corresponding to all of anchors
             gt_labels, gt_boxes = self.label_and_sample_anchors(anchors, gt_instances)
-            print('len(gt_labels)=', len(gt_labels))
+            print('len(gt_labels)=', len(gt_labels)) # 2
         else:
             gt_labels, gt_boxes = None, None
 
