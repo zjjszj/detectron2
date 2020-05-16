@@ -201,7 +201,12 @@ class RPN(nn.Module):
             """
 
             match_quality_matrix = retry_if_cuda_oom(pairwise_iou)(gt_boxes_i, anchors)
-            matched_idxs, gt_labels_i = retry_if_cuda_oom(self.anchor_matcher)(match_quality_matrix)
+            ## get gt_label gt_box_index of every anchor.
+            ## gt_label==1 concluding two situations:
+            ## 1. iou>0.5
+            ## 2. max iou with gt_box
+            ## result is the second when the first is confilt with the second.
+            matched_idxs, gt_labels_i = retry_if_cuda_oom(self.anchor_matcher)(match_quality_matrix)    ## the len of both is N
             # Matching is memory-expensive and may result in CPU tensors. But the result is small
             gt_labels_i = gt_labels_i.to(device=gt_boxes_i.device)
             del match_quality_matrix
@@ -224,8 +229,6 @@ class RPN(nn.Module):
 
             gt_labels.append(gt_labels_i)  # N,AHW
             matched_gt_boxes.append(matched_gt_boxes_i)
-        print('gt_labels[0].shape=', gt_labels[0].shape)
-        print('matched_gt_boxes[0].shape=', matched_gt_boxes[0].shape)
         return gt_labels, matched_gt_boxes
 
     def forward(self, images, features, gt_instances=None):
@@ -245,10 +248,16 @@ class RPN(nn.Module):
         """
         features = [features[f] for f in self.in_features]
         pred_objectness_logits, pred_anchor_deltas = self.rpn_head(features)
-        anchors = self.anchor_generator(features)
+        print('len(pred_objectness_logits)=', len(pred_objectness_logits))
+        print('pred_objectness_logits[0].shape=', pred_objectness_logits[0].shape)
+        anchors = self.anchor_generator(features)   ## TODO:: anchors: in an image, so how to training?
 
         if self.training:
+            ## gt_labels: (list[tensor[int]...]) len is the number of images. Contains values {0, -1, 1}.
+            ##      Approximately 256 pos and neg, others are -1.
+            ## gt_boxes: (list[tensor[[float]]...]) len is the number of images. Contains gt_boxes corresponding to all of anchors
             gt_labels, gt_boxes = self.label_and_sample_anchors(anchors, gt_instances)
+            print('len(gt_labels)=', len(gt_labels))
         else:
             gt_labels, gt_boxes = None, None
 

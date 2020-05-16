@@ -1,8 +1,8 @@
 import os
 import torch
 import torch.nn.functional as F
-import torch.nn as nn
+import math
 
-a=torch.tensor([[6,2],[4,3]])
-indexs=[0,0,1,1]
-print(a[indexs])
+a=torch.randn((2,6,4))
+b=torch.randn((2,10,4))
+print(torch.cat((a,b),dim=1).shape)

@@ -183,7 +183,9 @@ def rpn_losses(
     localization_loss = smooth_l1_loss(
         pred_anchor_deltas[pos_masks], gt_anchor_deltas[pos_masks], smooth_l1_beta, reduction="sum"
     )
-
+    print('gt_anchor_deltas.shape=', gt_anchor_deltas.shape)
+    print('pred_anchor_deltas.shape=', pred_anchor_deltas.shape)
+    print('pred_objectness_logits.shape=', pred_objectness_logits.shape)
     valid_masks = gt_labels >= 0
     objectness_loss = F.binary_cross_entropy_with_logits(
         pred_objectness_logits[valid_masks],
@@ -246,6 +248,8 @@ class RPNOutputs(object):
             .flatten(1, -2)
             for x in pred_anchor_deltas
         ]
+        print('len(self.pred_anchor_deltas)=', len(self.pred_anchor_deltas))
+        print('self.pred_anchor_deltas[0].shape=', self.pred_anchor_deltas[0].shape)
 
         self.anchors = anchors
 

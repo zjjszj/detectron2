@@ -6,7 +6,7 @@ import torch
 # Value for clamping large dw and dh predictions. The heuristic is that we clamp
 # such that dw and dh are no larger than what would transform a 16px box into a
 # 1000px box (based on a small anchor, 16px, and a typical image size, 1000px).
-_DEFAULT_SCALE_CLAMP = math.log(1000.0 / 16)
+_DEFAULT_SCALE_CLAMP = math.log(1000.0 / 16)    ## 4.135
 
 
 __all__ = ["Box2BoxTransform", "Box2BoxTransformRotated"]
@@ -47,7 +47,7 @@ class Box2BoxTransform(object):
     """
 
     def __init__(
-        self, weights: Tuple[float, float, float, float], scale_clamp: float = _DEFAULT_SCALE_CLAMP
+        self, weights: Tuple[float, float, float, float], scale_clamp: float = _DEFAULT_SCALE_CLAMP ## 4.135
     ):
         """
         Args:
